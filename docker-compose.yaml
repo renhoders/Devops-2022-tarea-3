@@ -8,9 +8,22 @@ services:
     image: app
     container_name: my-app
     command: "bash ./runapp.sh"
+    environment:
+      - CONNECTION_STRING
+    expose:
+      - 8000
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db #la app depende del servcio de postgres
 
   db:
+    image: postgres #trabajamos con la ultima version
     container_name: postgres
     restart: always
+    environment: #seteamos variables de entorno para postgres
+      - POSTGRES_USER
+      - POSTGRES_DB
+      - POSTGRES_PASSWORD
     expose:
       - "5432"
